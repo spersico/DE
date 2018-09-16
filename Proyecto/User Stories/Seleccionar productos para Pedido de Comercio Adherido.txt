@@ -1,0 +1,12 @@
+Story Points: 3
+Yo como comprador quiero seleccionar los productos que van a formar parte de mi pedido
+Notas:  Los productos deben poder añadirse, seleccionándolos desde un listado, a un carrito especificando la cantidad y una observación en caso de considerarse necesario. Los productos deben ser de un mismo comercio. El tamaño del pedido debe caber en la mochila del cadete. Los productos en el carrito deben poder modificarse o quitarse luego de ser agregados al carrito. 
+Finalmente, se debe confirma el contenido del carrito, para continuar el pedido.
+Pruebas de Aceptación:
+-	Probar añadir un producto al carrito (Pasa)
+-	Probar añadir más de un producto de un mismo comercio al carrito (Pasa)
+-	Probar añadir productos de distintos comercios al carrito (Falla)
+-	Probar modificar la cantidad de uno o más productos añadidos al carrito (pasa)
+-	Probar eliminar del carrito a uno o más productos añadidos (pasa)
+-	Probar hacer un pedido muy grande (falla)
+-	Probar dejar sin observaciones (pasa)

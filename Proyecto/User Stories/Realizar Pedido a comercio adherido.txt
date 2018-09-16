@@ -1,0 +1,11 @@
+Story Points: 3
+Yo como comprador quiero realizar un pedido a un comercio adherido para que el mismo llegue a mi casa.
+Notas: Con el contenido de un pedido ya confirmado, se debe elegir una dirección donde se debe entregar, y una fecha/hora de entrega preferentes de entrega (por defecto: “lo antes posible”).
+Se debe elegir una forma de pago (efectivo, o tarjeta VISA), y si se elige pagar con efectivo, se debe especificar con cuanto se pagará.
+Finalmente, se debe confirmar el pedido.
+Pruebas de Aceptación:
+-	Probar dejar el campo de dirección vacío (falla)
+-	Probar especificar una fecha/hora de entrega anterior a la actual (falla)
+-	Probar pagar en efectivo sin especificar con cuanto se paga (falla)
+-	Probar pagar en efectivo especificando con cuanto se paga (pasa)
+-	Probar elegir forma de pago tarjeta VISA (pasa)
