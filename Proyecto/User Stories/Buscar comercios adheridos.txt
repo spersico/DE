@@ -1,0 +1,11 @@
+Yo como comprador quiero buscar comercios adheridos para realizar pedidos.
+Notas:
+ Debe poder filtrarse por tipo de producto, tiempo promedio de entrega y seguimiento del cadete por GPS
+
+Pruebas de aceptación:
+ - Probar buscar sin filtros. (Pasa)
+ - Probar buscar con un filtro. (Pasa)
+ - Probar buscar con varios filtros. (Pasa)
+ - Probar busqueda que no devuelva resultados. (Pasa)
+
+Story Points:1

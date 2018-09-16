@@ -1,0 +1,15 @@
+Como comprador quiero realizar pedidos a comercios no adheridos para adquirir sus productos.
+Notas:
+ Debe ingresar por escrito que productos debe buscar el cadete.
+ Debe poder agregarse una foto descriptiva del producto.
+ Debe seleccionarse de un mpa interactivo o ingresar por escrito la dirección del comercio donde debe retirarse el producto.
+
+Pruebas de aceptación:
+ - Probar realizar pedido con todos los campos completos. (Pasa)
+ - Probar realizar pedido sin foto descriptiva. (Pasa)
+ - Probar ingresar como texto una dirección inexistente. (Falla)
+ - Probar ingresar por texto una dirección válida. (Pasa)
+ - Probar seleccionar dirección del mapa. (Pasa)
+ - Probar sin ingresar dirección o nombre del producto. (Falla)
+
+Story Points: 5

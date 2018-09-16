@@ -1,0 +1,14 @@
+Yo como comprador quiero registrarme para realizar pedidos por DeliverEat!.
+Notas:
+ Debe poder registrarse con la aplicación Android, IOS o por la página web.
+ Debe poder usarse Facebook, Google o email para registrarse.
+
+Pruebas de aceptación:
+ - Probar registrar usando Android, IOS y página web. (Pasa)
+ - Probar registrar usando cuentas válidas de de Facebook y Google. (Pasa)
+ - Probar registrar usando email válido y contraseña de 8 o más caracteres. (Pasa)
+ - Probar registrar usando cuentas de Google y Facebook inválidas. (Falla)
+ - Probar registrar con email inválido. (Falla)
+ - Probar registrar con email válido y contraseña de 8 dígitos. (Falla)
+
+Story Points: 1

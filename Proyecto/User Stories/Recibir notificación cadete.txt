@@ -1,0 +1,15 @@
+Yo como cadete quiero recibir notificaciones de los pedidos para llevarlos a su destino.
+Notas:
+ Debe informarle dónde entregar el pedido, cuanto vuelto llevar y a quien entregarlo.
+ La notificación debe llegarle al teléfono.
+ Debe indicar en que comercio retirar el pedido.
+ Debe informar fecha y hora de entrega.
+ Debe funcionar para los dos tipos de pedido.
+
+Pruebas de aceptación:
+ - Probar recibir notificación de pedido a comercio adherido. (Pasa)
+ - Probar recibir notificación de pedido a comercio no adherido. (Pasa)
+ - Probar recibir notificación de pedido con pago en efectivo, indicando el vuelto. (Pasa)
+ - Probar recibir notificación de pedido con pago con tarjeta Visa. (Pasa)
+
+Story Points: 5

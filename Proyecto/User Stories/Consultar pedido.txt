@@ -1,0 +1,9 @@
+Yo como comprador quiero consultar mis pedidos para conocer el estado de dichos pedidos.
+Notas:
+ Debe poder verse el estado del pedido en tiempo real y seguir al cadete mediante un mapa para ver donde se encuentra.
+
+Pruebas de aceptación:
+ - Probar consultar pedido que no haya sido entregado. (Pasa)
+ - Probar consultar pedido entregado. (Pasa)
+
+Story Points: 2
