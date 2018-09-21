@@ -1,10 +1,14 @@
 package isw_tp;
 
+import isw_tp.persistencia.DE_PersistenciaIOException;
+import isw_tp.persistencia.DE_PersistenciaReader;
+import isw_tp.persistencia.DE_PersistenciaWriter;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
@@ -36,7 +40,7 @@ public class DE_pedidoComercioAdheridoController implements Initializable {
      //Se harckodean detalles pedidos para ser ingresados en la tabla
     //En el programa final deberian ser los incluidos en el carrito de compras
 
-    DE_DetallePedido dp1 = new DE_DetallePedido(new DE_Articulo("Vazo termico 500ml", 200), 5);
+    DE_DetallePedido dp1 = new DE_DetallePedido(new DE_Articulo("Vaso termico 500ml", 200), 5);
     DE_DetallePedido dp2 = new DE_DetallePedido(new DE_Articulo("Termo 1L", 100), 1);
     DE_DetallePedido dp3 = new DE_DetallePedido(new DE_Articulo("Guantes Negros Lana", 80), 3);
     DE_DetallePedido dp4 = new DE_DetallePedido(new DE_Articulo("Pasamontaña Negro", 100), 2);
@@ -91,6 +95,10 @@ public class DE_pedidoComercioAdheridoController implements Initializable {
     private Label lblVuelto;
     @FXML
     private Label fechaHoraActual;
+    @FXML
+    private ComboBox<String> cmbTipoEntrega;
+    @FXML
+    private Label lblHoraEntrega;
 
     
     
@@ -112,8 +120,11 @@ public class DE_pedidoComercioAdheridoController implements Initializable {
         pedido.add(dp3);
         pedido.add(dp4);
         tbPedidos.setItems(pedido);
-        cmbHoraEntrega.getItems().addAll( 
+        cmbTipoEntrega.getItems().addAll(
             "Lo antes posible",
+            "Programar la hora de entrega"
+        );
+        cmbHoraEntrega.getItems().addAll( 
             "9:00",
             "10:00",
             "11:00",
@@ -128,7 +139,8 @@ public class DE_pedidoComercioAdheridoController implements Initializable {
             "20:00",
             "21:00"
             );
-        cmbHoraEntrega.setValue("Lo antes posible");
+        cmbHoraEntrega.setValue("9:00");
+        cmbTipoEntrega.setValue("Lo antes posible");
         total = 0;
         for (int i = 0; i < pedido.size() ; i++) {
             total += pedido.get(i).getSubtotal();
@@ -138,8 +150,6 @@ public class DE_pedidoComercioAdheridoController implements Initializable {
         fechaEntrega.setValue(LocalDate.now());
     }    
 
-    
-    
     @FXML
     private void changeStateEfectivo(ActionEvent event) {
         /*
@@ -156,9 +166,7 @@ public class DE_pedidoComercioAdheridoController implements Initializable {
         }
         
     }
-
-    
-    
+   
     @FXML
     private void changeStateTarjeta(ActionEvent event) {
         /*
@@ -175,8 +183,19 @@ public class DE_pedidoComercioAdheridoController implements Initializable {
         }
     }
     
-    
-    
+    @FXML
+    private void changeEfectivoIngresado(ActionEvent event) {
+        /*
+            calcula el vuelto en caso de seleccionar medio de pago efectivo
+        */
+        if (txtEfectivoCantidad.getText().isEmpty()) return;
+        float pago = Float.valueOf(txtEfectivoCantidad.getText());
+        double vuelto = pago - this.total;
+        if (vuelto <= 0) return;
+        lblVuelto.setText("Su vuelto: " + String.valueOf(vuelto) + "$");
+    }
+
+  
     private boolean validateCard(){
         /*
             validación de datos de tarjeta
@@ -202,7 +221,7 @@ public class DE_pedidoComercioAdheridoController implements Initializable {
         }
         
         // que el número de tarjeta no sea número negativo
-        if (nroTarjeta <= 0 || txtNroTarjeta.getText().length() != 12) {
+        if (nroTarjeta <= 0 || txtNroTarjeta.getText().length() != 16) {
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setTitle("Error");
             a.setHeaderText("Número de tarjeta invalido");
@@ -266,49 +285,6 @@ public class DE_pedidoComercioAdheridoController implements Initializable {
         
         return true;
     }
-    
-    
-    
-    private Date ParseFecha(String fecha)
-    {
-        /*
-            método que transforma un string tipo "MM/AAAA" al tipo Date
-            utilizado para validar que la tarjeta no esté vencida
-        */
-        
-        StringTokenizer st = new StringTokenizer(fecha,"/");
-        int mes = 0;
-        mes = Integer.parseInt((String) st.nextElement());
-        
-        // valida que se ha ingresado un mes válido
-        if(mes > 12 || mes < 1){ 
-            Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setTitle("Error");
-            a.setHeaderText("Fecha de vencimiento no válida");
-            a.showAndWait();
-            return null;
-        
-        }
-        
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = null;
-        
-        // conversion a tipo date
-        try {            
-            date = formato.parse("01/"+fecha);        
-        } 
-        catch (ParseException ex) 
-        {
-            Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setTitle("Error");
-            a.setHeaderText("Formato de fecha de vencimiento incorrecto");
-            a.showAndWait();
-        }
-        return date;
-    }
-
-
-    
     private boolean validateData(){
         /*
             validación de los datos necesarios del pedido. Se los valida
@@ -357,7 +333,7 @@ public class DE_pedidoComercioAdheridoController implements Initializable {
         // en caso de seleccionar la entrega para la fecha actual que la hora
         // de entrega seleccionada sea "Lo antes posible" o posterior a la 
         // hora actual
-        if(fechaEntrega.getValue().isEqual(LocalDate.now()) && cmbHoraEntrega.getValue() != "Lo antes posible"){
+        if(fechaEntrega.getValue().isEqual(LocalDate.now()) && cmbTipoEntrega.getValue().toString() == "Programar la hora de entrega"){
             Date fechaHora = new Date();
             StringTokenizer st = new StringTokenizer(cmbHoraEntrega.getValue().toString(),":");
             int horaEntrega = 0;
@@ -437,8 +413,48 @@ public class DE_pedidoComercioAdheridoController implements Initializable {
         return true;
     }
 
+    
+    private Date ParseFecha(String fecha)
+    {
+        /*
+            método que transforma un string tipo "MM/AAAA" al tipo Date
+            utilizado para validar que la tarjeta no esté vencida
+        */
+        
+        StringTokenizer st = new StringTokenizer(fecha,"/");
+        int mes = 0;
+        mes = Integer.parseInt((String) st.nextElement());
+        
+        // valida que se ha ingresado un mes válido
+        if(mes > 12 || mes < 1){ 
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Error");
+            a.setHeaderText("Fecha de vencimiento no válida");
+            a.showAndWait();
+            return null;
+        
+        }
+        
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = null;
+        
+        // conversion a tipo date
+        try {            
+            date = formato.parse("01/"+fecha);        
+        } 
+        catch (ParseException ex) 
+        {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Error");
+            a.setHeaderText("Formato de fecha de vencimiento incorrecto");
+            a.showAndWait();
+        }
+        return date;
+    }
+
+    
     @FXML
-    private void confirmation(ActionEvent event) {
+    private void confirmation(ActionEvent event) throws DE_PersistenciaIOException {
         /*
             desencadena las validaciones de los datos
         */
@@ -448,6 +464,24 @@ public class DE_pedidoComercioAdheridoController implements Initializable {
                 a.setTitle("Exito");
                 a.setHeaderText("Su pedido se ha realizado correctamente");
                 a.showAndWait();
+                DE_Pedido pedido;
+                if(chkEfectivo.isSelected()){
+                    pedido = new DE_Pedido((LocalDate)fechaEntrega.getValue(), cmbTipoEntrega.getValue(), cmbHoraEntrega.getValue()
+                            , txtCalle.getText(), Integer.parseInt(txtCalleNro.getText()), 
+                            Double.parseDouble(txtEfectivoCantidad.getText()), total);
+                }
+                else{
+                    pedido = new DE_Pedido((LocalDate)fechaEntrega.getValue(), cmbTipoEntrega.getValue(), cmbHoraEntrega.getValue()
+                            , txtCalle.getText(), Integer.parseInt(txtCalleNro.getText()), total,
+                            Double.parseDouble(txtNroTarjeta.getText()), txtTitularTarjeta.getText(),
+                            Integer.parseInt(txtCodTarjeta.getText()), txtVencimientoTarjeta.getText()
+                    );
+                }
+                if (!txtDepto.getText().isEmpty()){
+                    pedido.setPisoDireccion(txtPiso.getText());
+                    pedido.setDptoDireccion(txtDepto.getText());
+                }
+                this.almacenarPedido(pedido);
                 Stage stage = (Stage) btnConfirmar.getScene().getWindow();
                 stage.close();
             }
@@ -455,20 +489,6 @@ public class DE_pedidoComercioAdheridoController implements Initializable {
         
     }
 
-
-    @FXML
-    private void change(ActionEvent event) {
-        /*
-            calcula el vuelto en caso de seleccionar medio de pago efectivo
-        */
-        if (txtEfectivoCantidad.getText().isEmpty()) return;
-        float pago = Float.valueOf(txtEfectivoCantidad.getText());
-        double vuelto = pago - this.total;
-        if (vuelto <= 0) return;
-        lblVuelto.setText("Su vuelto: " + String.valueOf(vuelto) + "$");
-    }
-
-    
     @FXML
     private void close(ActionEvent event) {
         /*
@@ -477,5 +497,34 @@ public class DE_pedidoComercioAdheridoController implements Initializable {
         Stage stage = (Stage) btnCancelar.getScene().getWindow();
         stage.close();
     }
+
+    @FXML
+    private void changeTipoEntrega(ActionEvent event) {
+        /*
+            Ante la eleccion del tipo de entrega programada, se debe desplegar un combo para seleccionar la hora
+        */
+        if (cmbTipoEntrega.getValue().toString() == "Programar la hora de entrega"){
+            cmbHoraEntrega.setVisible(true);
+            lblHoraEntrega.setVisible(true);
+        }
+    }
     
+    private void almacenarPedido(DE_Pedido pedido) throws DE_PersistenciaIOException {
+        /*
+            Metodo que se utiliza para almacenar en un archivo los pedidos realizados.
+        */
+        ArrayList<DE_Pedido> pedidos;
+        try {
+            DE_PersistenciaReader pr = new DE_PersistenciaReader();
+            pedidos = pr.read();
+            pedidos.add(pedido);
+        } catch (DE_PersistenciaIOException e) {
+            pedidos = new ArrayList<DE_Pedido>();
+            pedidos.add(pedido);
+            
+        }
+        DE_PersistenciaWriter pw = new DE_PersistenciaWriter();
+        pw.write(pedidos);
+    }
+
 }
