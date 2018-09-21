@@ -130,12 +130,12 @@
             <Font name="Calibri" size="33.0" />
          </font>
       </Label>
-      <Label fx:id="lblHoraEntrega" layoutX="637.0" layoutY="198.0" prefHeight="29.0" prefWidth="174.0" text="Hora de entrega:">
+      <Label fx:id="lblHoraEntrega" layoutX="637.0" layoutY="198.0" prefHeight="29.0" prefWidth="174.0" text="Hora de entrega:" visible="false">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <ComboBox fx:id="cmbHoraEntrega" layoutX="790.0" layoutY="200.0" prefHeight="26.0" prefWidth="174.0" />
+      <ComboBox fx:id="cmbHoraEntrega" layoutX="790.0" layoutY="200.0" prefHeight="26.0" prefWidth="174.0" visible="false" />
       <Label layoutX="637.0" layoutY="140.0" prefHeight="29.0" prefWidth="174.0" text="Tipo de entrega:">
          <font>
             <Font size="19.0" />

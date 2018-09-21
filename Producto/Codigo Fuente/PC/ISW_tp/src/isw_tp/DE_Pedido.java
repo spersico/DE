@@ -28,20 +28,18 @@ public class DE_Pedido implements Serializable{
     private int codigoTarjeta;
     private String fechaVencimiento;
 
-    public DE_Pedido(LocalDate fechaEntrega, String tipoEntrega, String horaEntrega, String calleDireccion, int numeroDireccion, double dineroIngresado, double total) {
+    public DE_Pedido(LocalDate fechaEntrega, String tipoEntrega, String calleDireccion, int numeroDireccion, double dineroIngresado, double total) {
         this.fechaEntrega = fechaEntrega;
         this.tipoEntrega = tipoEntrega;
-        this.horaEntrega = horaEntrega;
         this.calleDireccion = calleDireccion;
         this.numeroDireccion = numeroDireccion;
         this.dineroIngresado = dineroIngresado;
         this.total = total;
     }
 
-    public DE_Pedido(LocalDate fechaEntrega, String tipoEntrega, String horaEntrega, String calleDireccion, int numeroDireccion, double total, double numeroTarjeta, String nombreTarjeta, int codigoTarjeta, String fechaVencimiento) {
+    public DE_Pedido(LocalDate fechaEntrega, String tipoEntrega, String calleDireccion, int numeroDireccion, double total, double numeroTarjeta, String nombreTarjeta, int codigoTarjeta, String fechaVencimiento) {
         this.fechaEntrega = fechaEntrega;
         this.tipoEntrega = tipoEntrega;
-        this.horaEntrega = horaEntrega;
         this.calleDireccion = calleDireccion;
         this.numeroDireccion = numeroDireccion;
         this.total = total;

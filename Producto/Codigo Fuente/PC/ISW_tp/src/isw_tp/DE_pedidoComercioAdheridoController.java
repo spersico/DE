@@ -184,6 +184,17 @@ public class DE_pedidoComercioAdheridoController implements Initializable {
     }
     
     @FXML
+    private void changeTipoEntrega(ActionEvent event) {
+        /*
+            Ante la eleccion del tipo de entrega programada, se debe desplegar un combo para seleccionar la hora
+        */
+        if (cmbTipoEntrega.getValue().toString() == "Programar la hora de entrega"){
+            cmbHoraEntrega.setVisible(true);
+            lblHoraEntrega.setVisible(true);
+        }
+    }
+    
+    @FXML
     private void changeEfectivoIngresado(ActionEvent event) {
         /*
             calcula el vuelto en caso de seleccionar medio de pago efectivo
@@ -466,12 +477,12 @@ public class DE_pedidoComercioAdheridoController implements Initializable {
                 a.showAndWait();
                 DE_Pedido pedido;
                 if(chkEfectivo.isSelected()){
-                    pedido = new DE_Pedido((LocalDate)fechaEntrega.getValue(), cmbTipoEntrega.getValue(), cmbHoraEntrega.getValue()
+                    pedido = new DE_Pedido((LocalDate)fechaEntrega.getValue(), cmbTipoEntrega.getValue()
                             , txtCalle.getText(), Integer.parseInt(txtCalleNro.getText()), 
                             Double.parseDouble(txtEfectivoCantidad.getText()), total);
                 }
                 else{
-                    pedido = new DE_Pedido((LocalDate)fechaEntrega.getValue(), cmbTipoEntrega.getValue(), cmbHoraEntrega.getValue()
+                    pedido = new DE_Pedido((LocalDate)fechaEntrega.getValue(), cmbTipoEntrega.getValue()
                             , txtCalle.getText(), Integer.parseInt(txtCalleNro.getText()), total,
                             Double.parseDouble(txtNroTarjeta.getText()), txtTitularTarjeta.getText(),
                             Integer.parseInt(txtCodTarjeta.getText()), txtVencimientoTarjeta.getText()
@@ -480,6 +491,9 @@ public class DE_pedidoComercioAdheridoController implements Initializable {
                 if (!txtDepto.getText().isEmpty()){
                     pedido.setPisoDireccion(txtPiso.getText());
                     pedido.setDptoDireccion(txtDepto.getText());
+                }
+                if(cmbTipoEntrega.getValue() == "Programar la hora de entrega"){
+                    pedido.setHoraEntrega(cmbHoraEntrega.getValue());
                 }
                 this.almacenarPedido(pedido);
                 Stage stage = (Stage) btnConfirmar.getScene().getWindow();
@@ -498,16 +512,7 @@ public class DE_pedidoComercioAdheridoController implements Initializable {
         stage.close();
     }
 
-    @FXML
-    private void changeTipoEntrega(ActionEvent event) {
-        /*
-            Ante la eleccion del tipo de entrega programada, se debe desplegar un combo para seleccionar la hora
-        */
-        if (cmbTipoEntrega.getValue().toString() == "Programar la hora de entrega"){
-            cmbHoraEntrega.setVisible(true);
-            lblHoraEntrega.setVisible(true);
-        }
-    }
+    
     
     private void almacenarPedido(DE_Pedido pedido) throws DE_PersistenciaIOException {
         /*

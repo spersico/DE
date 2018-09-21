@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="ISW_tp.jar" size="32678" download="eager" />
+    <jar href="ISW_tp.jar" size="32692" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="ISW_tp" >
     <param name="requiredFXVersion" value="8.0+"/>
