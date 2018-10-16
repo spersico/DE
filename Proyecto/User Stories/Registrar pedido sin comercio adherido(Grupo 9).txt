@@ -1,0 +1,26 @@
+Registrar pedido sin comercio adherido (pertenece al grupo 9)
+
+Como cliente quiero realizar un pedido para recibir uno o varios productos a mi domicilio.
+
+Nota: 
+ * La suma del volumen de los productos no puede ser superior a la capacidad de la mochila.
+ * La fecha y hora de recepción puede ser programable.
+ * Los datos de la tarjeta nombre del titular, número de tarjeta, pin y fecha de vencimiento son obligatorios.
+ * El valor con el que se abona es obligatorio.
+ * El valor con el que se abonara es obligatorio.
+ * El valor del costo estimado es obligatorio.
+ * Los datos dirección de comercio, dirección de entrega, detalle de pedido y forma de pago son obligatorios.
+
+Casos de prueba:
+ * Probar ingresar letras en campo de monto(error)
+ * Probar ingresar letras en campo de costo(error)
+ * Probar confirmar el pedido con algún campo vacío(error)
+ * Probar confirmar pago con fecha de envío programable(ok)
+ * Probar confirmar pedido con fecha de envío programable(ok)
+ * Probar confirmar pedido con fecha de envío por defecto(ok)
+ * Probar confirmar pedido sin foto adjunta(ok)
+ * Probar confirmar pedido con datos de tarjeta vencida(error)
+ * Probar confirmar pedido con forma de pago en efectivo(ok)
+ * Probar cancelar la solicitud de envío(ok)
+ * Probar ingresar un archivo que no sea una imagen(error)
+ * Probar ver dirección en mapa(ok)
